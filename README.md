@@ -29,35 +29,56 @@ Everyone else is trying to make Claude *shorter*. That's why it's unreadable —
 the sentence above is already compressed. Squeezing harder is what produced
 "load-bearing" instead of "publish breaks."
 
-`claudesplain` targets how Claude writes, not how much. It will sometimes make
-output **longer**. That's the point.
+`claudesplain` targets how Claude writes, not how much.
+
+Length is not the lever, and it moves with the content rather than in a fixed
+direction. Over five runs per arm on the same repository: unmodified 1001 words,
+with a plain-English prompt 1222, with this plugin 1046. It does not pad and it
+does not promise brevity.
+
+What it changes is which of the two ways to be shorter Claude reaches for:
+
+| | |
+|---|---|
+| **Cut** | drop whole items the reader doesn't need → shorter *and* clearer |
+| **Compress** | squeeze a sentence into jargon and fragments → shorter and *unreadable* |
+
+"load-bearing" is four words shorter than "publish breaks if you remove it."
+That's compression, and it's where the unreadability comes from — which is why
+telling Claude to be concise makes this worse, not better. Every tool in this
+category asks for exactly the thing that caused the problem.
+
+`claudesplain` asks for the other one: cut the process narration, the caveats
+about things that cannot happen, the summary of the summary — then write what
+survives properly.
 
 ## Before / after
 
-Not hypothetical. Both of these are Claude Opus 5 at `xhigh` effort, same
-prompt, same repository, describing the same function. The only difference is
-whether the plugin was loaded.
+Both are Claude Opus 5 at `xhigh` effort, same prompt, same repository, same
+claim about the same file. The only difference is whether the plugin was loaded.
 
-**Before:**
+**Before** (23 words):
 
-> 5. **`deposit()`** — the barrier spit and lagoon.
+> The governing idea, stated at `config.py:7`, is that **the coastline is never
+> authored** — it's wherever the finished surface happens to cross zero.
 
-**After:**
+**After** (25 words):
 
-> 5. **`deposit()`** — `_drift_line()` finds the southernmost land in each
-> column of the open coast, smooths it hard, and steps it seaward with a hook at
-> the end. That derived line becomes the barrier spit. The lagoon behind it is a
-> strip between the bar and the shore, derived from the bar. The delta is a
-> radial silt cone.
+> `config.py:5-10` states the rule the rest of the code follows: the coastline
+> is never drawn. […] The shore is wherever the finished heightfield crosses
+> zero.
 
-The first version is not wrong. It is not even short-changing you on facts —
-`deposit()` does produce the barrier spit and lagoon. It fails because "the
-barrier spit" and "the lagoon" are definite references to things you have never
-been shown. It reads as a reminder to someone who already knows, because that's
-who Claude was writing to: itself, ten seconds earlier, when it read the file.
+Same length. Same fact. The first one costs you more to read, for three reasons:
 
-The second version tells you what the code does. It is six times longer. That is
-the trade, and in a summary you actually have to act on, it is not close.
+- **"the finished surface"** — which surface? You have not been shown one. The
+  second names it: the heightfield, a thing you can go look at.
+- **"The governing idea"** — an abstraction standing where a fact goes. The
+  second says what it actually is: a rule the code follows, at these lines.
+- **"happens to cross zero"** — hedging a deterministic operation into an
+  accident.
+
+None of that is wrong. All of it is written for someone who already read the
+file.
 
 ---
 

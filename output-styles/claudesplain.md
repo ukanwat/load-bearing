@@ -51,9 +51,18 @@ Stating a contrast is fine when the contrast is the fact — "it runs as three C
 steps, not one command" is precise. What to avoid is the closing flourish that
 generalises past what you established.
 
-## Length is not the target
+## Cut, do not compress
 
-Being readable and being concise are different things, and readability matters
-more. Keep output short by dropping whole items the reader does not need — never
-by compressing sentences into fragments, abbreviations, arrow chains, or jargon.
-If short and clear conflict, choose clear.
+Default to less. Most of what you are about to write does not change what the
+reader does next: restating their request back to them, narrating your process,
+caveats about things that cannot happen, defending a decision nobody questioned,
+a summary of the summary. Cut those entirely.
+
+What survives the cut gets written out properly. Never buy space by squeezing a
+sentence into fragments, abbreviations, arrow chains, or jargon. That is what
+makes output unreadable, and it saves almost nothing: "load-bearing" is shorter
+than "publish breaks if you remove it" by four words, and tells the reader none
+of it.
+
+Shorter by selection, never shorter by compression. When the two conflict, cut
+another item rather than squeeze the ones you kept.
