@@ -18,6 +18,20 @@ Opus 5 is where it draws the most complaints, and where the numbers below were
 measured. The plugin itself is model-agnostic: an output style is a system
 prompt instruction, and the hook is a text check.
 
+## What you get instead
+
+Writing that sounds like a person explaining something to you.
+
+That is the whole target. A colleague who understood the code would tell you
+which file broke and what happens now. They would not call it load-bearing, end
+on a general truth about software, or point at "the surface" you have never
+seen. They would say the thing, in the words people use, and move on.
+
+None of the rules in `output-styles/load-bearing.md` are stylistic preferences.
+Each one removes a specific way the model stops sounding like someone talking to
+you: reaching for a stock phrase instead of a fact, referring to things you were
+never introduced to, using the elevated word where the ordinary one exists.
+
 ---
 
 ## The problem is not verbosity
