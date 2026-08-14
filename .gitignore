@@ -1,0 +1,6 @@
+eval/arms/
+eval/out/
+eval/out-decay/
+__pycache__/
+*.pyc
+.DS_Store

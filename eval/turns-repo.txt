@@ -1,0 +1,12 @@
+Explore tools/worldgen and explain how terrain generation works, from config through to the exported output.
+How does the noise field work, and where do its parameters come from?
+Trace how roads get placed. What decides the route?
+What exactly does the export step write, and what consumes it?
+Summarize what you have found so far.
+How do the massif definitions in config drive the shape of the land?
+Where does erosion happen, and what algorithm is it?
+What ends up in the workspace world directory after a full build, file by file?
+Summarize what you have found so far.
+How are bridges positioned, and what happens if the terrain under one changes?
+What would break if the seed changed? Walk me through the consequences.
+Summarize what you have found so far.

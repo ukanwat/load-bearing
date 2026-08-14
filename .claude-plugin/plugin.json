@@ -1,0 +1,11 @@
+{
+  "name": "load-bearing",
+  "description": "Makes Claude Opus 5 readable. Targets register, unresolved reference, and stock phrasing — not length.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Utkarsh Kanwat"
+  },
+  "repository": "https://github.com/ukanwat/load-bearing",
+  "license": "MIT",
+  "keywords": ["opus-5", "output-style", "hooks", "readability", "writing"]
+}

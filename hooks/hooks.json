@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/rewrite.py",
+            "timeout": 30,
+            "statusMessage": "checking phrasing"
+          }
+        ]
+      }
+    ]
+  }
+}
