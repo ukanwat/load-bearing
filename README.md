@@ -20,17 +20,33 @@ prompt instruction, and the hook is a text check.
 
 ## What you get instead
 
-Writing that sounds like a person explaining something to you.
+Someone who keeps track of what you have actually seen.
 
-That is the whole target. A colleague who understood the code would tell you
-which file broke and what happens now. They would not call it load-bearing, end
-on a general truth about software, or point at "the surface" you have never
-seen. They would say the thing, in the words people use, and move on.
+That is the whole target, and it is a harder thing than sounding plain. A good
+colleague reporting back knows which files you have open and which you have
+never heard of, that you were in a meeting for the last hour, that the name they
+invented for a pattern at 2pm means nothing to you. So they introduce things
+before referring to them, and hand you a report that stands on its own.
 
-None of the rules in `output-styles/load-bearing.md` are stylistic preferences.
-Each one removes a specific way the model stops sounding like someone talking to
-you: reaching for a stock phrase instead of a fact, referring to things you were
-never introduced to, using the elevated word where the ordinary one exists.
+Claude does not track that by default. It writes as though you were sitting
+behind it the whole time: definite reference to things it never introduced
+("the surface", "that asymmetry"), shorthand it built up while working, detail
+that only makes sense if you watched it happen. The information is usually all
+correct. It is addressed to a participant, and you were not one.
+
+This is also why it gets worse the longer a session runs. More private
+vocabulary accumulates, and more of it leaks into text meant for you.
+
+Every rule in `output-styles/load-bearing.md` is a mechanical form of the same
+instruction — assume the reader was not there:
+
+| rule | what it enforces |
+| --- | --- |
+| No `the` on a noun you have not introduced | the reader can identify every referent |
+| Write the claim, not the metaphor | "load-bearing" tells them nothing; what breaks does |
+| No stock phrase for emphasis | if it matters, say what goes wrong without it |
+| Prefer the common word | they should not have to decode vocabulary |
+| Longer is fine | completeness beats compression |
 
 ---
 
