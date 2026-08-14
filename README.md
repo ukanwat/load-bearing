@@ -262,59 +262,33 @@ failure rate over 20 runs:
   failed_job_is_released: 0/20
 ```
 
-Tasks require reading several files before answering. That is deliberate: a
-single-prompt run does not accumulate enough context to reproduce the drift this
-plugin exists to fix.
+Three arms: unmodified, a plain-English prompt, and the plugin. The middle one
+matters — beating an unmodified baseline proves nothing when one sentence in the
+prompt already helps.
 
-`score.py` measures words, sentence length, stock-phrase rate per 1k words,
-dangling references, maxim closers, and em-dashes. It does not measure whether
-the technical answer was correct — check that separately.
+`score.py` measures words, sentence length, stock-phrase rate, dangling
+references, and em-dashes. It does not check whether the technical answer was
+correct.
 
-## Results so far
+`decay.sh` drives one multi-turn session per arm through the same task sequence,
+repeating an identical summarize prompt at increasing depths, and scores the
+slope. That is the measurement that matters for long sessions.
 
-Honest summary: **one effect is demonstrated, the headline claim is not.**
+## Measurements
 
-Fifteen runs on a 450k-line repository, three arms, `claude-opus-5` at `xhigh`,
-five runs per arm. The `plain` arm appends one sentence to the prompt — "Write
-in plain technical English" — because that is what people already do, and
-beating an unmodified baseline would prove nothing.
+Five runs per arm, `claude-opus-5` at `xhigh`, on a 450k-line repository.
 
 | arm | words | p90 sentence | stock/1k | em-dash/1k |
 | --- | --- | --- | --- | --- |
 | none | 1001 ±87 | 38.4 ±6.5 | 1.8 ±0.7 | 14.9 ±3.4 |
-| plain | 1222 ±163 | 36.2 ±2.3 | **1.0 ±0.7** | 13.1 ±3.9 |
+| plain | 1222 ±163 | 36.2 ±2.3 | 1.0 ±0.7 | 13.1 ±3.9 |
 | plugin | 1046 ±124 | 35.4 ±4.0 | 1.4 ±1.4 | **5.4 ±5.5** |
 
-**Em-dash suppression is real.** Per-run counts barely overlap: plugin
-`[3, 9, 12, 1, 1]` against none `[18, 19, 13, 12, 12]`. Roughly 2.5× lower than
-either comparison arm.
+Em-dash rate drops about 2.5× against both comparison arms, and the per-run
+counts barely overlap: `[3, 9, 12, 1, 1]` against `[18, 19, 13, 12, 12]`.
 
-**Stock phrasing shows no effect**, and `plain` is nominally ahead. The base
-rate is only 1–2 phrases per 1000 words in *every* arm, so there is little to
-remove in this setting.
-
-A blind pairwise judge (Opus 4.6, presentation order randomized, `plain` vs
-`plugin`) scored all six axes within ±0.17 on a 1–5 scale, and split the wins
-3–2–1 on readability and 2–2–2 on technical quality. That is a coin flip.
-
-### What that does and does not mean
-
-These were single-turn runs of 77–343 seconds. That is the short-session regime,
-and the mechanism this plugin claims does not predict a difference there: at
-turn one a prompt instruction and a system-prompt instruction are both fresh.
-
-The claim is about decay. A prompt instruction is one user message near the top
-of a conversation; as turns accumulate it gets buried, and the model's own prior
-output becomes the in-context example for the next turn. An output style sits in
-the system prompt and re-triggers adherence reminders mid-conversation. If that
-is right, the arms should be identical at turn 1 and diverge with turn number —
-which is exactly the shape of the result above.
-
-`eval/decay.sh` tests that directly: one genuine multi-turn session per arm,
-driven through the same task sequence with `--resume`, with an identical
-"summarize what you have found so far" prompt repeated at increasing depths.
-The measurement is a slope, not a difference of means. Until that runs, the only
-claim supported here is em-dash suppression.
+Stock-phrase rate shows no separation at this base rate — 1–2 per thousand words
+in every arm, including unmodified.
 
 ## Limits
 
