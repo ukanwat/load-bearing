@@ -2,9 +2,21 @@
 
 Everyone is trying to make Claude shorter. That is why it is unreadable.
 
-`load-bearing` is a Claude Code plugin that targets how Opus 5 writes, not how
+`load-bearing` is a Claude Code plugin that targets how Claude writes, not how
 much: unresolved reference, elevated register, and a fixed set of phrases it
 reaches for regardless of context. It will sometimes make output *longer*.
+
+It is not one model's problem. Anthropic documents it for Claude Fable 5 under
+["Readability when communicating with the user"](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5) —
+"dense arrow-chain shorthand, deep implementation detail, references to thinking
+the user never saw" — and the Opus 5 and Sonnet 5 guides carry the same register
+and verbosity notes. Users report it across the family: "I have had to, with
+both Sonnet and Opus 5, ask 'what are you talking about'"; "Opus versions since
+4.6 have all had a fair amount of awkward, canned prose."
+
+Opus 5 is where it draws the most complaints, and where the numbers below were
+measured. The plugin itself is model-agnostic: an output style is a system
+prompt instruction, and the hook is a text check.
 
 ---
 
