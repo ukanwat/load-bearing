@@ -1,5 +1,5 @@
 ---
-name: load-bearing
+name: claudesplain
 description: Plain, referentially complete prose. Targets register and stock phrasing, not length.
 keep-coding-instructions: true
 force-for-plugin: true

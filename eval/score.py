@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Score eval outputs on the things load-bearing claims to fix.
+"""Score eval outputs on the things claudesplain claims to fix.
 
 Every metric here is mechanical and reproducible. None of them measure whether
 the technical answer was correct — check that yourself, or use judge.py.

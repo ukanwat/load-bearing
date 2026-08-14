@@ -1,6 +1,6 @@
 {
-  "_comment": "Standalone install, for people who do not want the plugin. Copy output-styles/load-bearing.md to ~/.claude/output-styles/ and scripts/rewrite.py somewhere executable, then merge this into your settings.json.",
-  "outputStyle": "load-bearing",
+  "_comment": "Standalone install, for people who do not want the plugin. Copy output-styles/claudesplain.md to ~/.claude/output-styles/ and scripts/rewrite.py somewhere executable, then merge this into your settings.json.",
+  "outputStyle": "claudesplain",
   "hooks": {
     "Stop": [
       {

@@ -1,11 +1,11 @@
 {
-  "name": "load-bearing",
+  "name": "claudesplain",
   "description": "Makes Claude readable. Targets register, unresolved reference, and stock phrasing — not length. Worst on Opus 5; present across the 5 family and back to 4.6.",
   "version": "0.1.0",
   "author": {
     "name": "Utkarsh Kanwat"
   },
-  "repository": "https://github.com/ukanwat/load-bearing",
+  "repository": "https://github.com/ukanwat/claudesplain",
   "license": "MIT",
   "keywords": ["claude-code", "opus-5", "fable-5", "sonnet-5", "output-style",
                "hooks", "readability", "writing"]

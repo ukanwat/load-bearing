@@ -1,10 +1,38 @@
-# load-bearing
+# claudesplain
 
-Everyone is trying to make Claude shorter. That is why it is unreadable.
+> **claudesplain** *(verb)* — to explain something at length, entirely
+> correctly, in words the listener has never encountered, while assuming they
+> watched you arrive at it.
 
-`load-bearing` is a Claude Code plugin that targets how Claude writes, not how
-much: unresolved reference, elevated register, and a fixed set of phrases it
-reaches for regardless of context. It will sometimes make output *longer*.
+A real answer to "how does the deployment work":
+
+> Kestrel comes in as a framework reference, not a package; `dotnet publish`
+> against the installed runtime is the entire build. That is deliberate and
+> load-bearing rather than tidy. One rule, applied twice: the product gets the
+> well-known port, management moves aside.
+
+Every word of that is true. You still don't know what to do.
+
+Count what it assumes you already have: which rule, applied to what, twice. What
+"management" is. What load-bearing means here, and what falls over without it.
+A port it never names. You were supposed to be in the room for this.
+
+**You were not in the room.** That's the bug.
+
+```diff
+- That is deliberate and load-bearing rather than tidy.
++ Kestrel is referenced as a framework, not installed as a package.
++ Add it to the .csproj and publish breaks.
+```
+
+Everyone else is trying to make Claude *shorter*. That's why it's unreadable —
+the sentence above is already compressed. Squeezing harder is what produced
+"load-bearing" instead of "publish breaks."
+
+`claudesplain` targets how Claude writes, not how much. It will sometimes make
+output **longer**. That's the point.
+
+---
 
 It is not one model's problem. Anthropic documents it for Claude Fable 5 under
 ["Readability when communicating with the user"](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5) —
@@ -37,7 +65,7 @@ correct. It is addressed to a participant, and you were not one.
 This is also why it gets worse the longer a session runs. More private
 vocabulary accumulates, and more of it leaks into text meant for you.
 
-Every rule in `output-styles/load-bearing.md` is a mechanical form of the same
+Every rule in `output-styles/claudesplain.md` is a mechanical form of the same
 instruction — assume the reader was not there:
 
 | rule | what it enforces |
@@ -132,7 +160,7 @@ mid-conversation. A hook does not depend on the model choosing to comply at all.
 
 | Layer | Mechanism | Guarantee |
 | --- | --- | --- |
-| `output-styles/load-bearing.md` | System prompt + adherence reminders | Reduces drift. Still an instruction. |
+| `output-styles/claudesplain.md` | System prompt + adherence reminders | Reduces drift. Still an instruction. |
 | `scripts/rewrite.py` (Stop hook) | Blocks the turn, feeds back a targeted rewrite instruction | Deterministic. Does not negotiate. |
 
 The hook fires only on detected stock phrasing, names the exact phrases it
@@ -145,8 +173,8 @@ session.
 Requires Claude Code ≥ 2.1.91.
 
 ```bash
-git clone https://github.com/ukanwat/load-bearing
-claude --plugin-dir ./load-bearing
+git clone https://github.com/ukanwat/claudesplain
+claude --plugin-dir ./claudesplain
 ```
 
 The output style sets `force-for-plugin: true`, so it applies automatically
@@ -156,8 +184,8 @@ forget — but it does mean this takes over the setting while enabled.
 
 ### Without the plugin
 
-Copy `output-styles/load-bearing.md` to `~/.claude/output-styles/`, then set
-`"outputStyle": "load-bearing"` in your settings. Note that the `/output-style`
+Copy `output-styles/claudesplain.md` to `~/.claude/output-styles/`, then set
+`"outputStyle": "claudesplain"` in your settings. Note that the `/output-style`
 command was removed in v2.1.91; use `/config` or edit the setting directly.
 
 ## Eval
