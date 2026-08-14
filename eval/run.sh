@@ -3,7 +3,7 @@
 #
 #   none    unmodified Claude Code
 #   plain   "Write in plain technical English." appended to the prompt
-#   plugin  load-bearing loaded via --plugin-dir
+#   plugin  claudesplain loaded via --plugin-dir
 #
 # `plain` is the arm that matters. Beating an unmodified baseline proves little,
 # because a single sentence in the prompt already helps. The question this eval

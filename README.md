@@ -32,6 +32,33 @@ the sentence above is already compressed. Squeezing harder is what produced
 `claudesplain` targets how Claude writes, not how much. It will sometimes make
 output **longer**. That's the point.
 
+## Before / after
+
+Not hypothetical. Both of these are Claude Opus 5 at `xhigh` effort, same
+prompt, same repository, describing the same function. The only difference is
+whether the plugin was loaded.
+
+**Before:**
+
+> 5. **`deposit()`** — the barrier spit and lagoon.
+
+**After:**
+
+> 5. **`deposit()`** — `_drift_line()` finds the southernmost land in each
+> column of the open coast, smooths it hard, and steps it seaward with a hook at
+> the end. That derived line becomes the barrier spit. The lagoon behind it is a
+> strip between the bar and the shore, derived from the bar. The delta is a
+> radial silt cone.
+
+The first version is not wrong. It is not even short-changing you on facts —
+`deposit()` does produce the barrier spit and lagoon. It fails because "the
+barrier spit" and "the lagoon" are definite references to things you have never
+been shown. It reads as a reminder to someone who already knows, because that's
+who Claude was writing to: itself, ten seconds earlier, when it read the file.
+
+The second version tells you what the code does. It is six times longer. That is
+the trade, and in a summary you actually have to act on, it is not close.
+
 ---
 
 It is not one model's problem. Anthropic documents it for Claude Fable 5 under
