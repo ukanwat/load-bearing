@@ -23,7 +23,9 @@ STOCK_PHRASES = [
     "rough edges",
     "surface area",
     "the seam",
-    "seams",
+    # Bare "seams" is deliberately absent: it is literal in graphics, geology,
+    # and manufacturing -- "chunks cannot disagree at their seams" is correct
+    # writing -- and including it produced false hits on real output.
     "worth knowing",
     "worth noting",
     "the tradeoff here",
