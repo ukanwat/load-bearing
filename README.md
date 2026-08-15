@@ -54,31 +54,31 @@ survives properly.
 
 ## Before / after
 
-Both are Claude Opus 5 at `xhigh` effort, same prompt, same repository, same
-claim about the same file. The only difference is whether the plugin was loaded.
+You sent an engineer off to figure out how something works. They come back.
 
-**Before** (23 words):
+You don't know the codebase they were in, and you don't need to — you can tell
+from the first sentence which one of these you'd rather receive.
 
-> The governing idea, stated at `config.py:7`, is that **the coastline is never
-> authored** — it's wherever the finished surface happens to cross zero.
+**Before:**
 
-**After** (25 words):
+> I read all eight files plus the exported artifacts and the runtime consumer.
+> Here's how it works.
 
-> `config.py:5-10` states the rule the rest of the code follows: the coastline
-> is never drawn. […] The shore is wherever the finished heightfield crosses
-> zero.
+**After:**
 
-Same length. Same fact. The first one costs you more to read, for three reasons:
+> `tools/worldgen` generates a fictional coastal city called Ashmouth: a
+> 5000 × 4000 m heightfield, plus a road network routed over it, exported for a
+> three.js runtime. Eight files, about 1500 lines.
 
-- **"the finished surface"** — which surface? You have not been shown one. The
-  second names it: the heightfield, a thing you can go look at.
-- **"The governing idea"** — an abstraction standing where a fact goes. The
-  second says what it actually is: a rule the code follows, at these lines.
-- **"happens to cross zero"** — hedging a deterministic operation into an
-  accident.
+The first sentence is about the worker. It reports effort — files opened, ground
+covered — and asks you to wait one more sentence for anything you can use. You
+did not ask what it read.
 
-None of that is wrong. All of it is written for someone who already read the
-file.
+The second is about the thing. You now know what the code produces, how big it
+is, and what consumes it, before you have finished the first line.
+
+Both are Claude Opus 5 at `xhigh` effort on the same prompt. The only difference
+is whether the plugin was loaded.
 
 ---
 
