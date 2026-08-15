@@ -4,30 +4,36 @@
 > correctly, in words the listener has never encountered, while assuming they
 > watched you arrive at it.
 
-A real answer to "how does the deployment work":
+Your agent worked for two hours. It comes back and says:
 
-> Kestrel comes in as a framework reference, not a package; `dotnet publish`
-> against the installed runtime is the entire build. That is deliberate and
-> load-bearing rather than tidy. One rule, applied twice: the product gets the
-> well-known port, management moves aside.
+```
+The retry path is the load-bearing piece here. That asymmetry is what bites you, and the blast radius is small.
+                      ^                        ^                                         ^
+                      what breaks?             between what and what?                    affecting whom?
+```
 
-Every word of that is true. You still don't know what to do.
+Every word is ordinary English. Nothing is wrong. You still can't act on it.
 
-Count what it assumes you already have: which rule, applied to what, twice. What
-"management" is. What load-bearing means here, and what falls over without it.
-A port it never names. You were supposed to be in the room for this.
+Each of those three phrases points at something the model knows and you don't.
+It read the code, so *it* knows which retry path, which two things differ, and
+who is affected. It wrote the sentence for the version of you that read the code
+too.
 
-**You were not in the room.** That's the bug.
+**That version of you does not exist.** That's the bug.
+
+What it meant:
 
 ```diff
-- That is deliberate and load-bearing rather than tidy.
-+ Kestrel is referenced as a framework, not installed as a package.
-+ Add it to the .csproj and publish breaks.
+- The retry path is the load-bearing piece here.
+- That asymmetry is what bites you, and the blast radius is small.
++ Mobile retries a failed payment after 3 seconds. Web waits 30.
++ When the payment API is slow, mobile can charge the same card 10 times.
++ Only the mobile constant needs changing.
 ```
 
 Everyone else is trying to make Claude *shorter*. That's why it's unreadable —
-the sentence above is already compressed. Squeezing harder is what produced
-"load-bearing" instead of "publish breaks."
+the first version is already the compressed one. "load-bearing" is shorter than
+"charges the card ten times," and squeezing harder is what produced it.
 
 `claudesplain` targets how Claude writes, not how much.
 
@@ -52,33 +58,30 @@ category asks for exactly the thing that caused the problem.
 about things that cannot happen, the summary of the summary — then write what
 survives properly.
 
-## Before / after
+## The first sentence
 
-You sent an engineer off to figure out how something works. They come back.
+You sent someone off to figure out how the auth system works. They come back.
 
-You don't know the codebase they were in, and you don't need to — you can tell
-from the first sentence which one of these you'd rather receive.
+Illustrations, not transcripts — but the shape is what changes:
 
 **Before:**
 
-> I read all eight files plus the exported artifacts and the runtime consumer.
-> Here's how it works.
+> I went through the auth module, the session store, and the middleware chain,
+> plus the tests. Here's how it works.
 
 **After:**
 
-> `tools/worldgen` generates a fictional coastal city called Ashmouth: a
-> 5000 × 4000 m heightfield, plus a road network routed over it, exported for a
-> three.js runtime. Eight files, about 1500 lines.
+> Sessions are JWTs signed with one shared secret, checked by middleware on
+> every request, and refreshed by a cron job an hour before they expire.
 
-The first sentence is about the worker. It reports effort — files opened, ground
-covered — and asks you to wait one more sentence for anything you can use. You
-did not ask what it read.
+The first sentence is about the worker. It reports effort — what was opened, how
+much ground was covered — and asks you to wait one more sentence before anything
+you can use. You did not ask what it read.
 
-The second is about the thing. You now know what the code produces, how big it
-is, and what consumes it, before you have finished the first line.
+The second is about the thing you asked about. Three facts, no preamble.
 
-Both are Claude Opus 5 at `xhigh` effort on the same prompt. The only difference
-is whether the plugin was loaded.
+This is the single most common shape in a long agent session, and it costs you a
+sentence every time.
 
 ---
 
