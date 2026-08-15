@@ -37,10 +37,8 @@ the first version is already the compressed one. "load-bearing" is shorter than
 
 `claudesplain` targets how Claude writes, not how much.
 
-Length is not the lever, and it moves with the content rather than in a fixed
-direction. Over five runs per arm on the same repository: unmodified 1001 words,
-with a plain-English prompt 1222, with this plugin 1046. It does not pad and it
-does not promise brevity.
+Length is not the lever. It moves with the content rather than in a fixed
+direction, so this does not pad and it does not promise brevity.
 
 What it changes is which of the two ways to be shorter Claude reaches for:
 
@@ -168,21 +166,6 @@ Copy `output-styles/claudesplain.md` to `~/.claude/output-styles/`, then set
 `"outputStyle": "claudesplain"` in your settings. Note that the `/output-style`
 command was removed in v2.1.91; use `/config` or edit the setting directly.
 
-## Measurements
-
-Five runs per arm, `claude-opus-5` at `xhigh`, on a 450k-line repository.
-
-| arm | words | p90 sentence | stock/1k | em-dash/1k |
-| --- | --- | --- | --- | --- |
-| none | 1001 ±87 | 38.4 ±6.5 | 1.8 ±0.7 | 14.9 ±3.4 |
-| plain | 1222 ±163 | 36.2 ±2.3 | 1.0 ±0.7 | 13.1 ±3.9 |
-| plugin | 1046 ±124 | 35.4 ±4.0 | 1.4 ±1.4 | **5.4 ±5.5** |
-
-Em-dash rate drops about 2.5× against both comparison arms, and the per-run
-counts barely overlap: `[3, 9, 12, 1, 1]` against `[18, 19, 13, 12, 12]`.
-
-Stock-phrase rate shows no separation at this base rate — 1–2 per thousand words
-in every arm, including unmodified.
 
 ## Limits
 
