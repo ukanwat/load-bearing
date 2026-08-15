@@ -97,96 +97,25 @@ Opus 5 is where it draws the most complaints, and where the numbers below were
 measured. The plugin itself is model-agnostic: an output style is a system
 prompt instruction, and the hook is a text check.
 
-## What you get instead
+## What it fixes
 
-Someone who keeps track of what you have actually seen.
+Three failures, all the same assumption — that you were there:
 
-That is the whole target, and it is a harder thing than sounding plain. A good
-colleague reporting back knows which files you have open and which you have
-never heard of, that you were in a meeting for the last hour, that the name they
-invented for a pattern at 2pm means nothing to you. So they introduce things
-before referring to them, and hand you a report that stands on its own.
-
-Claude does not track that by default. It writes as though you were sitting
-behind it the whole time: definite reference to things it never introduced
-("the surface", "that asymmetry"), shorthand it built up while working, detail
-that only makes sense if you watched it happen. The information is usually all
-correct. It is addressed to a participant, and you were not one.
-
-This is also why it gets worse the longer a session runs. More private
-vocabulary accumulates, and more of it leaks into text meant for you.
-
-Every rule in `output-styles/claudesplain.md` is a mechanical form of the same
-instruction — assume the reader was not there:
-
-| rule | what it enforces |
-| --- | --- |
-| No `the` on a noun you have not introduced | the reader can identify every referent |
-| Write the claim, not the metaphor | "load-bearing" tells them nothing; what breaks does |
-| No stock phrase for emphasis | if it matters, say what goes wrong without it |
-| Prefer the common word | they should not have to decode vocabulary |
-| Longer is fine | completeness beats compression |
-
----
-
-## The problem is not verbosity
-
-Verbosity is the complaint people file, and it is real. One developer ran 163
-private eval tasks against Opus 5 and Opus 4.8 on identical prompts and measured
-**1.81× the output tokens** (95% CI 1.62–2.02) with **no measurable quality
-difference** (−0.018, CI crossing zero).
-
-The interesting part is where the extra tokens landed:
-
-| Task type | Token ratio vs Opus 4.8 |
-| --- | --- |
-| Factual questions | 2.81× |
-| Coding | 2.75× |
-| Document Q&A | 2.68× |
-| Reasoning | 0.94× |
-
-Reasoning tasks got *shorter*. So this is not a model thinking harder and
-spilling it into the answer. In that developer's words: "it does not ramble
-because the work is difficult. It turns a one-line answer into a paragraph."
-
-Now look at what the unreadable output actually does:
-
-> That is deliberate and load-bearing rather than tidy.
-
-> which is not a detail: this is the surface you open when name resolution, or
-> the fleet, is what is broken.
-
-Both are *compressed*. A metaphor stands in for the claim. A definite article
-points at something never introduced. A maxim replaces a fact. These sentences
-are shorter than a readable version would be — that is what makes them opaque.
-
-Which means asking for brevity pushes the model further into the failure mode.
-Anthropic's own guidance says so:
-
-> the way to keep output short is to be selective about what you include, not to
-> compress the writing into fragments, abbreviations, arrow chains, or jargon
-
-Compression is the disease. Most existing tools prescribe more of it.
-
-## What it actually fixes
-
-Three failures, which are usually discussed as one:
-
-**Unresolved reference.** "the surface", "that asymmetry", "this pattern" —
-definite reference to things never introduced. The reader reconstructs an
-antecedent they were never given. This is why output gets worse deep into a
-session: the longer the model works, the more private vocabulary it assumes you
-share.
+**Unresolved reference.** "the surface", "that asymmetry", "this pattern".
+Definite reference to things never introduced, so you reconstruct an antecedent
+you were never given. This is why it worsens as a session runs: the longer the
+model works, the more private vocabulary it assumes you share.
 
 **Metaphor standing in for a claim.** Calling something load-bearing is not
-saying what breaks if it is removed.
+saying what breaks without it.
 
-**A fixed phrasebook.** The same short list recurs across unrelated users and
-unrelated codebases: *load-bearing, blast radius, belt and suspenders, seam,
-surface area, rough edges, worth noting*. A word that fits everywhere
-distinguishes nothing. By the fiftieth use you cannot tell whether something is
-genuinely structural or whether that is just the adjective the model reached
-for, and you lose the ability to trust its emphasis.
+**A fixed phrasebook.** *load-bearing, blast radius, belt and suspenders, surface
+area, rough edges, worth noting.* A word that fits everywhere distinguishes
+nothing, so you lose the ability to trust what it flags as important.
+
+Every rule in `output-styles/claudesplain.md` is a mechanical form of the same
+instruction, and each carries a test the model can apply to its own sentence
+before sending it.
 
 ## Why a plugin and not a CLAUDE.md rule
 
@@ -212,7 +141,7 @@ mid-conversation. A hook does not depend on the model choosing to comply at all.
 | Layer | Mechanism | Guarantee |
 | --- | --- | --- |
 | `output-styles/claudesplain.md` | System prompt + adherence reminders | Reduces drift. Still an instruction. |
-| `scripts/rewrite.py` (Stop hook) | Blocks the turn, feeds back a targeted rewrite instruction | Deterministic. Does not negotiate. |
+| `hooks/rewrite.py` (Stop hook) | Blocks the turn, feeds back a targeted rewrite instruction | Deterministic. Does not negotiate. |
 
 The hook fires only on detected stock phrasing, names the exact phrases it
 found, and asks for the claim underneath each one. It intervenes at most once
@@ -238,44 +167,6 @@ forget — but it does mean this takes over the setting while enabled.
 Copy `output-styles/claudesplain.md` to `~/.claude/output-styles/`, then set
 `"outputStyle": "claudesplain"` in your settings. Note that the `/output-style`
 command was removed in v2.1.91; use `/config` or edit the setting directly.
-
-## Eval
-
-`eval/` contains an A/B harness. Both arms get an identical copy of a fixture
-with a real concurrency bug; the only difference is whether the plugin loads.
-
-```bash
-cd eval
-./run.sh                 # both arms, all tasks
-python3 score.py         # mechanical metrics
-python3 score.py --blind # anonymized, key printed last
-```
-
-The fixture is a lease-based job queue whose `claim()` has a genuine TOCTOU
-race: an `await` on an audit-log call sits between the state check and the
-mutation, so two workers can both claim the same job. `AuditLog` buffers 8
-records before flushing, and only the flush yields to the event loop, so the
-duplicates come out about 8 apart rather than at random.
-
-```
-$ cd eval/fixture && python3 verify.py --runs 20
-failure rate over 20 runs:
-  all_jobs_complete: 0/20
-  no_duplicate_processing: 20/20
-  failed_job_is_released: 0/20
-```
-
-Three arms: unmodified, a plain-English prompt, and the plugin. The middle one
-matters — beating an unmodified baseline proves nothing when one sentence in the
-prompt already helps.
-
-`score.py` measures words, sentence length, stock-phrase rate, dangling
-references, and em-dashes. It does not check whether the technical answer was
-correct.
-
-`decay.sh` drives one multi-turn session per arm through the same task sequence,
-repeating an identical summarize prompt at increasing depths, and scores the
-slope. That is the measurement that matters for long sessions.
 
 ## Measurements
 
